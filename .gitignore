@@ -1,2 +1,5 @@
-*.vcxproj*
+*.VC*
 Debug/
+.vs/
+*.dll
+*.sln
