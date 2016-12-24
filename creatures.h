@@ -8,16 +8,18 @@ public:
 	Player();
 	~Player();
 
-	enum Status { GO, STOP, FALL };
+	enum Status { MOVEX, MOVEY, STOPX, STOPY };
 
 	void play();
 	void move();
-	void update();
+	void updatex();
+	void updatey();
 
 	void go();
-	void stop();
+	void stopx();
+	void stopy();
 	void fall();
-	void fallcheck();
+	void startxy();
 	sf::Vector2f moving();
 
 	sf::Vector2f getPosition();
@@ -30,6 +32,9 @@ private:
 	sf::Clock frameTime;
 	sf::Clock time;
 
+	//MOVE_SPEED
+	int vx = 3;
+
 	//FALLING
 	float g = -1.4, vp = -16.7, vy = 0;
 
@@ -37,7 +42,6 @@ private:
 	int act_frame = 0;
 	virtual void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
-	int vx = 3;
 	Status status;
 	float pos1;
 	float pos2;

@@ -56,7 +56,8 @@ void Engine::runEngine()
 
 		check_collision();
 
-		player.update();
+		player.updatex();
+		player.updatey();
 
 		window->draw(player);
 
@@ -66,47 +67,73 @@ void Engine::runEngine()
 
 void Engine::check_collision()
 {
-	if (player.getStatus() == Player::STOP) return;
-
 	sf::FloatRect box1(player.getBoundingBox());
-
-	bool col1 = true;
-	bool col2 = true;
 
 	int player_width = 50;
 	int player_height = 65;
 
-	int x = box1.left / level.tile_width;
+	player.startxy();
+
+	//X-axis collisions
+
+	int x = (box1.left + player.getSpeed().x)/ level.tile_width;
 	int y = box1.top / level.tile_height;
+
 	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
 	{
-		player.stop();
+		player.stopx();
 	}
 
-	x = (box1.left + player_width) / level.tile_width;
+	x = (box1.left + player_width + player.getSpeed().x) / level.tile_width;
 	y = box1.top / level.tile_height;
 	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
 	{
-		player.stop();
+		player.stopx();
+	}
+
+	x = (box1.left + player.getSpeed().x) / level.tile_width;
+	y = (box1.top + player_height) / level.tile_height;
+	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
+	{
+		player.stopx();
+	}
+	
+	x = (box1.left + player_width + player.getSpeed().x) / level.tile_width;
+	y = (box1.top + player_height) / level.tile_height;
+	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
+	{
+		player.stopx();
+	}
+
+	//Y-axis collisions
+
+	x = box1.left / level.tile_width;
+	y = (box1.top + player.getSpeed().y) / level.tile_height;
+
+	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
+	{
+		player.stopy();	
+	}
+
+	x = (box1.left + player_width) / level.tile_width;
+	y = (box1.top + player.getSpeed().y) / level.tile_height;
+	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
+	{
+		player.stopy();
 	}
 
 	x = (box1.left) / level.tile_width;
-	y = (box1.top + player_height) / level.tile_height;
+	y = (box1.top + player_height + player.getSpeed().y) / level.tile_height;
 	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
 	{
-		player.stop();
+		player.stopy();
 	}
-	else col1 = false;
-	
-	x = (box1.left + player_width) / level.tile_width;
-	y = (box1.top + player_height) / level.tile_height;
-	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
-	{
-		player.stop();
-	}
-	else col2 = false;
 
-	if ((col1 == false) && (col2 == false))
-		player.fallcheck();
+	x = (box1.left + player_width) / level.tile_width;
+	y = (box1.top + player_height + player.getSpeed().y) / level.tile_height;
+	if (level.level[y][x].isWall && box1.intersects(sprite[y][x].getGlobalBounds()))
+	{
+		player.stopy();
+	}
 }
 

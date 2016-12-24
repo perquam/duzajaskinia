@@ -46,71 +46,77 @@ void Player::move()
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			up = true;
-		}
-}
-
-void Player::update()
-{
-	if (right == true) {
-
-		if (status != FALL)
-			status = GO;
-
-		if (player_r.getScale().x < 0) {
-			player_r.move(-50, 0);
-			player_r.setScale(sf::Vector2f(1, 1));
+			if (vy==0)
+			vy = vp;
 		}
 
-		if (vx < 0) vx = -vx;
-
-		if (status != FALL) play();
-		player_r.move(vx, 0);
-		right = false;
-	}
-
-	if (left == true) {
-
-		if (status != FALL)
-		status = GO;
-
-		if (player_r.getScale().x > 0) {
-			player_r.move(50, 0);
-			player_r.setScale(sf::Vector2f(-1, 1));
-		}
-
-		if (vx > 0) vx = -vx;
-
-		if (status != FALL) play();
-		player_r.move(vx, 0);
-		left = false;
-	}
-
-	if ((up == true) && (status!=FALL)) { status = FALL; vy = vp; }
-
-	if (status == FALL)
+		if (status==MOVEY)
 		fall();
+
 }
 
-void Player::stop()
+void Player::updatex()
 {
-	status = STOP;
+	if (status != STOPX)
+	{
+		if (right == true) {
+			if (player_r.getScale().x < 0) {
+				player_r.move(-50, 0);
+				player_r.setScale(sf::Vector2f(1, 1));
+			}
 
-	up = false;
+			if (vx < 0) vx = -vx;
 
+			if (status != MOVEY) play();
+			player_r.move(vx, 0);
+			right = false;
+		}
+
+		if (left == true) {
+			if (player_r.getScale().x > 0) {
+				player_r.move(50, 0);
+				player_r.setScale(sf::Vector2f(-1, 1));
+			}
+
+			if (vx > 0) vx = -vx;
+
+			if (status != MOVEY) play();
+			player_r.move(vx, 0);
+			left = false;
+		}
+	}
+}
+
+void Player::updatey()
+{
+	if (status != STOPY)
+	{
+		player_r.move(0, vy);
+	}
+}
+
+void Player::stopx()
+{
+	status = STOPX;
+}
+
+void Player::stopy()
+{
 	vy = 0;
+	status = STOPY;
+}
+
+void Player::startxy()
+{
+	status = MOVEX;
+	status = MOVEY;
 }
 
 void Player::fall()
 {
 		act_frame = 0;
 		player_r.setTextureRect(sf::IntRect(act_frame * 50, 0, 50, 65));
-		player_r.move(0, vy);
 		vy -= g*t * 60;
-}
-
-void Player::fallcheck()
-{
-	status = FALL;
 }
 
 sf::Vector2f Player::getPosition()
