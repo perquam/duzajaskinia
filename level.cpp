@@ -25,7 +25,7 @@ void Level::loadFromFile(std::string filename)
 				file >> tmp;
 				level[y][x].type = FieldType(tmp);
 
-				if (tmp == 0)
+				if (tmp < 21)
 					level[y][x].isWall = false;
 				else
 					level[y][x].isWall = true;

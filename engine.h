@@ -11,6 +11,8 @@ class Engine
 	sf::Texture texture[Level::COUNT];
 	sf::Sprite sprite[Level::height][Level::width];
 
+	int x, y;
+
 public:
 	Engine(sf::RenderWindow &window_g);
 	Engine();
@@ -18,4 +20,6 @@ public:
 
 	void runEngine();
 	void check_collision();
+	void fall_ch_b();
+	void fall_ch_t();
 };

@@ -2,9 +2,9 @@
 
 sf::RenderWindow window;
 
-Game::Game(int length, int width)
+Game::Game(int width, int height)
 {
-	window.create(sf::VideoMode(length, width, 32), "Batalia");
+	window.create(sf::VideoMode(width, height, 32), "Batalia");
 	window.setVerticalSyncEnabled(true);
 	state = MENU;
 }
